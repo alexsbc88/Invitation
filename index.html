@@ -9,6 +9,7 @@
   <div id="form-container">
     <form id="invite-form">
       <h2>RSVP to the Party!</h2>
+
       <label for="name">Your Name:</label>
       <input id="name" name="name" type="text" required>
 
@@ -17,9 +18,13 @@
 
       <button type="submit">Submit</button>
     </form>
-    <a href="https://github.com/alexsbc88/Invitation/issues/new?title=RSVP:%20[YOUR%20NAME]&body=Work%20End%20Time:%20[HH:MM]%0AParty%20Time:%20[CALCULATED]" target="_blank" id="open-issue-link">
+
+    <a href="https://github.com/alexsbc88/Invitation/issues/new?title=RSVP:%20[YOUR%20NAME]&body=Work%20End%20Time:%20[HH:MM]%0AParty%20Time:%20[CALCULATED]" 
+       target="_blank" 
+       id="open-issue-link">
       Or RSVP via GitHub Issue
     </a>
+
     <button id="reset-btn">Reset RSVP</button>
   </div>
 
@@ -27,6 +32,7 @@
     <h2>You're invited!</h2>
     <p id="party-time-message"></p>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>
