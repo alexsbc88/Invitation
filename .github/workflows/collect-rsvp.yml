@@ -1,0 +1,59 @@
+name: Collect RSVP
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  collect_rsvp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Extract RSVP Data from Issue
+        id: rsvp
+        run: |
+          import json
+          import os
+
+          issue_title = os.environ['ISSUE_TITLE']
+          issue_body = os.environ['ISSUE_BODY']
+          new_rsvp = {
+              "name": issue_title,
+              "details": issue_body,
+              "submittedAt": os.environ.get('GITHUB_EVENT_CREATED_AT', '')
+          }
+
+          # Load existing invites.json
+          try:
+              with open('invites.json', 'r') as f:
+                  invites = json.load(f)
+          except Exception:
+              invites = []
+
+          invites.append(new_rsvp)
+
+          with open('invites.json', 'w') as f:
+              json.dump(invites, f, indent=2)
+
+      - name: Commit RSVP to invites.json
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add invites.json
+          git commit -m "Add RSVP from ${{ github.event.issue.title }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+    env:
+      ISSUE_TITLE: ${{ github.event.issue.title }}
+      ISSUE_BODY: ${{ github.event.issue.body }}
+      GITHUB_EVENT_CREATED_AT: ${{ github.event.issue.created_at }}
