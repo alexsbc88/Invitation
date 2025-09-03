@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---- Send RSVP to Google Sheets ----
     // Note: Make sure your Google Apps Script is deployed as "Anyone, even anonymous"
-    fetch("https://script.google.com/macros/s/AKfycby-Yg0JNX9qTBIbBsqSW4B7ZDXCB92xB1fzPITQxqXGCKLbfeS0hn0AmEBMElsui-JW/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbxeJiPgj70kZnKBih-VzabR7gAg9gUPzCPph71gQ-ZYEiNWq1fR-liLUqHIT5eUk_T_/exec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, workEnd, partyTime: partyTimeString })
