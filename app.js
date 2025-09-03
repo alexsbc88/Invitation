@@ -1,7 +1,7 @@
 document.getElementById('invite-form').onsubmit = function(e) {
   e.preventDefault();
 
-  const name = document.getElementById('name').value;
+  const name = document.getElementById('name').value.trim();
   const workEnd = document.getElementById('work-end').value;
 
   // Calculate party time: 30 minutes after work end
@@ -17,37 +17,39 @@ document.getElementById('invite-form').onsubmit = function(e) {
   minutes = minutes < 10 ? '0' + minutes : minutes;
   const partyTimeString = `${hours}:${minutes} ${ampm}`;
 
-  // Store locally so you can show the result instantly (does not save to repo)
+  // Save locally
   localStorage.setItem('invitee', JSON.stringify({
     name,
     workEnd,
     partyTime: partyTimeString
   }));
 
-  // Show confirmation
+  // Update UI
+  showInvitation(name, partyTimeString, workEnd);
+};
+
+// Show invitation UI
+function showInvitation(name, partyTime, workEnd) {
   document.getElementById('form-container').style.display = 'none';
   document.getElementById('invitation').style.display = 'block';
   document.getElementById('party-time-message').textContent =
-    `The firework watching party is at ${partyTimeString}. See you then, ${name}!`;
+    `The firework watching party is at ${partyTime}. See you then, ${name}!`;
 
-  // Give link to submit via GitHub Issue
+  // Update GitHub Issue link
   document.getElementById('open-issue-link').href =
-    `https://github.com/alexsbc88/Invitation/issues/new?title=RSVP:%20${encodeURIComponent(name)}&body=Work%20End%20Time:%20${workEnd}%0AParty%20Time:%20${partyTimeString}`;
-};
+    `https://github.com/alexsbc88/Invitation/issues/new?title=RSVP:%20${encodeURIComponent(name)}&body=Work%20End%20Time:%20${workEnd}%0AParty%20Time:%20${partyTime}`;
+}
 
-// On page load: show RSVP info if already submitted
+// On page load
 window.onload = function() {
   const invitee = localStorage.getItem('invitee');
   if (invitee) {
     const obj = JSON.parse(invitee);
-    document.getElementById('form-container').style.display = 'none';
-    document.getElementById('invitation').style.display = 'block';
-    document.getElementById('party-time-message').textContent =
-      `The firework watching party is at ${obj.partyTime}. See you then, ${obj.name}!`;
+    showInvitation(obj.name, obj.partyTime, obj.workEnd);
   }
 };
 
-// Reset button for testing
+// Reset
 document.getElementById('reset-btn').onclick = function() {
   localStorage.removeItem('invitee');
   location.reload();
