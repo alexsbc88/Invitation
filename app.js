@@ -4,13 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const invitationDiv = document.getElementById('invitation');
   const partyTimeMessage = document.getElementById('party-time-message');
 
-  // ---- Function: Show invitation confirmation ----
+  // ---- Show invitation with fade-in ----
   function showInvitation(name, partyTime) {
     partyTimeMessage.textContent = `${name}, your party starts at ${partyTime}!`;
-    invitationDiv.style.display = 'block';
+    invitationDiv.classList.add('show');
   }
 
-  // ---- Function: Launch confetti ----
+  // ---- Launch confetti ----
   function launchConfetti() {
     confetti({
       particleCount: 100,
@@ -52,9 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
       partyTime: partyTimeString
     }));
 
-    // ---- Send RSVP to Google Sheets ----
-    // Note: Make sure your Google Apps Script is deployed as "Anyone, even anonymous"
-    fetch("https://script.google.com/macros/s/AKfycbxeJiPgj70kZnKBih-VzabR7gAg9gUPzCPph71gQ-ZYEiNWq1fR-liLUqHIT5eUk_T_/exec", {
+    // ---- TEMPORARY: Skip Google Sheets fetch for testing ----
+    showInvitation(name, partyTimeString);
+    launchConfetti();
+    /*
+    // Uncomment this when your Google Apps Script is deployed as "Anyone, even anonymous"
+    fetch("YOUR_SCRIPT_URL", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, workEnd, partyTime: partyTimeString })
@@ -68,22 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(err => {
       console.error("Error sending RSVP:", err);
       alert("Failed to send RSVP. Make sure your Google Apps Script is deployed as 'Anyone, even anonymous'.");
-      showInvitation(name, partyTimeString); // Optional: show invitation even if fetch fails
+      showInvitation(name, partyTimeString);
       launchConfetti();
     });
+    */
   });
 
   // ---- Reset RSVP ----
-  resetBtn.addEventListener('click', () => {
-    localStorage.removeItem('invitee');
-    invitationDiv.style.display = 'none';
-    form.reset();
-  });
-
-  // ---- Auto-load existing RSVP if any ----
-  const savedInvite = localStorage.getItem('invitee');
-  if (savedInvite) {
-    const { name, partyTime } = JSON.parse(savedInvite);
-    showInvitation(name, partyTime);
-  }
-});
+  resetBtn.addEventListene
