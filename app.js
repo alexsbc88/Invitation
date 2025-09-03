@@ -4,7 +4,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const invitationDiv = document.getElementById('invitation');
   const partyTimeMessage = document.getElementById('party-time-message');
 
-  // Submit RSVP
+  // ---- Function: Show invitation confirmation ----
+  function showInvitation(name, partyTime) {
+    partyTimeMessage.textContent = `${name}, your party starts at ${partyTime}!`;
+    invitationDiv.style.display = 'block';
+  }
+
+  // ---- Function: Launch confetti ----
+  function launchConfetti() {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  }
+
+  // ---- Submit RSVP ----
   form.addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -37,8 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
       partyTime: partyTimeString
     }));
 
-    // Send RSVP to Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbxeJiPgj70kZnKBih-VzabR7gAg9gUPzCPph71gQ-ZYEiNWq1fR-liLUqHIT5eUk_T_/exec", {
+    // ---- Send RSVP to Google Sheets ----
+    // Note: Make sure your Google Apps Script is deployed as "Anyone, even anonymous"
+    fetch("https://script.google.com/macros/s/AKfycby-Yg0JNX9qTBIbBsqSW4B7ZDXCB92xB1fzPITQxqXGCKLbfeS0hn0AmEBMElsui-JW/exec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, workEnd, partyTime: partyTimeString })
@@ -46,40 +62,25 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(data => {
       console.log("RSVP stored:", data);
-      showInvitation(name, partyTimeString, workEnd);
+      showInvitation(name, partyTimeString);
       launchConfetti();
     })
     .catch(err => {
       console.error("Error sending RSVP:", err);
-      alert("Failed to send RSVP. Please try again.");
+      alert("Failed to send RSVP. Make sure your Google Apps Script is deployed as 'Anyone, even anonymous'.");
+      showInvitation(name, partyTimeString); // Optional: show invitation even if fetch fails
+      launchConfetti();
     });
   });
 
-  // Show invitation confirmation
-  function showInvitation(name, partyTime) {
-  const invitationDiv = document.getElementById('invitation');
-  const partyTimeMessage = document.getElementById('party-time-message');
-  partyTimeMessage.textContent = `${name}, your party starts at ${partyTime}!`;
-  invitationDiv.style.display = 'block';
-}
-
-  // Launch confetti
-  function launchConfetti() {
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
-  }
-
-  // Reset RSVP
+  // ---- Reset RSVP ----
   resetBtn.addEventListener('click', () => {
     localStorage.removeItem('invitee');
     invitationDiv.style.display = 'none';
     form.reset();
   });
 
-  // Auto-load existing RSVP if any
+  // ---- Auto-load existing RSVP if any ----
   const savedInvite = localStorage.getItem('invitee');
   if (savedInvite) {
     const { name, partyTime } = JSON.parse(savedInvite);
