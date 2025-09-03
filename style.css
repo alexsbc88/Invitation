@@ -11,6 +11,14 @@ body {
   color: #333;
 }
 
+/* Vertical container */
+#main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* space between form and invitation */
+}
+
 /* Shared card style */
 #form-container, #invitation {
   background: #fffdfa;
@@ -88,21 +96,6 @@ button:hover {
   box-shadow: 0 6px 18px rgba(193, 86, 122, 0.35);
 }
 
-/* GitHub issue link */
-a#open-issue-link {
-  display: inline-block;
-  margin-top: 1em;
-  color: #5f27cd;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-a#open-issue-link:hover {
-  color: #341f97;
-  text-decoration: underline;
-}
-
 /* Invitation message */
 #invitation p {
   font-size: 1.1em;
@@ -111,12 +104,8 @@ a#open-issue-link:hover {
   line-height: 1.5;
 }
 
-/* Soft fade-in animation */
-#form-container, #invitation {
-  animation: fadeIn 0.8s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Fade-in animation */
+#invitation {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s
