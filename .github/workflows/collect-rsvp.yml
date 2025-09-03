@@ -25,8 +25,8 @@ jobs:
           issue_title = os.environ['ISSUE_TITLE']
           issue_body = os.environ['ISSUE_BODY']
           new_rsvp = {
-              "name": issue_title.replace("RSVP: ", ""),
-              "details": issue_body,
+              "name": issue_title.replace("RSVP: ", "").strip(),
+              "details": issue_body.strip(),
               "submittedAt": os.environ.get('GITHUB_EVENT_CREATED_AT', '')
           }
 
@@ -51,8 +51,7 @@ jobs:
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git add invites.json
-          git commit -m "Add RSVP from ${{ github.event.issue.title }}"
+          git commit -m "Add RSVP from ${{ github.event.issue.title }}" || echo "No changes to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
