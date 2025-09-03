@@ -57,9 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Show invitation confirmation
   function showInvitation(name, partyTime) {
-    partyTimeMessage.textContent = `${name}, your party starts at ${partyTime}!`;
-    invitationDiv.style.display = 'block';
-  }
+  const invitationDiv = document.getElementById('invitation');
+  const partyTimeMessage = document.getElementById('party-time-message');
+  partyTimeMessage.textContent = `${name}, your party starts at ${partyTime}!`;
+  invitationDiv.style.display = 'block';
+}
 
   // Launch confetti
   function launchConfetti() {
