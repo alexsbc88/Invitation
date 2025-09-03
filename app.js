@@ -1,46 +1,60 @@
+// 🎉 Main JS for Firework Invitation
 document.addEventListener('DOMContentLoaded', () => {
+
+  // Form submit
   document.getElementById('invite-form').onsubmit = function(e) {
     e.preventDefault();
-    
-  const name = document.getElementById('name').value.trim();
-  const workEnd = document.getElementById('work-end').value;
 
-  // Calculate party time: 30 minutes after work end
-  const [workHour, workMin] = workEnd.split(':').map(Number);
-  const partyDate = new Date();
-  partyDate.setHours(workHour);
-  partyDate.setMinutes(workMin + 30);
+    const name = document.getElementById('name').value.trim();
+    const workEnd = document.getElementById('work-end').value;
 
-  let hours = partyDate.getHours();
-  let minutes = partyDate.getMinutes();
-  let ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12 || 12;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  const partyTimeString = `${hours}:${minutes} ${ampm}`;
+    // Calculate party time: 30 minutes after work end
+    const [workHour, workMin] = workEnd.split(':').map(Number);
+    const partyDate = new Date();
+    partyDate.setHours(workHour);
+    partyDate.setMinutes(workMin + 30);
 
-  // Save locally for confirmation
-  localStorage.setItem('invitee', JSON.stringify({
-    name,
-    workEnd,
-    partyTime: partyTimeString
-  }));
+    let hours = partyDate.getHours();
+    let minutes = partyDate.getMinutes();
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    const partyTimeString = `${hours}:${minutes} ${ampm}`;
 
-  // ✅ Send RSVP to Google Sheets
-  // fetch("https://script.google.com/macros/s/AKfycbxeJiPgj70kZnKBih-VzabR7gAg9gUPzCPph71gQ-ZYEiNWq1fR-liLUqHIT5eUk_T_/exec", {
-  //   method: "POST",
-  //   body: JSON.stringify({ name, workEnd, partyTime: partyTimeString }),
-  //   headers: { "Content-Type": "application/json" }
-  // })
-    console.log("Form submitted!", { name, workEnd });
-  // .then(res => res.json())
-  // .then(data => console.log("RSVP stored:", data))
-  // .catch(err => console.error("Error sending RSVP:", err));
+    // Save locally for confirmation
+    localStorage.setItem('invitee', JSON.stringify({
+      name,
+      workEnd,
+      partyTime: partyTimeString
+    }));
 
-  // Show confirmation
-  showInvitation(name, partyTimeString, workEnd);
-  launchConfetti();
-};
+    // Debug: log form submission
+    console.log("Form submitted!", { name, workEnd, partyTime: partyTimeString });
 
+    // Optional: send to Google Sheets (uncomment if needed)
+    /*
+    fetch("https://script.google.com/macros/s/AKfycbxeJiPgj70kZnKBih-VzabR7gAg9gUPzCPph71gQ-ZYEiNWq1fR-liLUqHIT5eUk_T_/exec", {
+      method: "POST",
+      body: JSON.stringify({ name, workEnd, partyTime: partyTimeString }),
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(res => res.json())
+    .then(data => console.log("RSVP stored:", data))
+    .catch(err => console.error("Error sending RSVP:", err));
+    */
+
+    // Show confirmation & launch confetti
+    showInvitation(name, partyTimeString, workEnd);
+    launchConfetti();
+  };
+
+  // Reset button
+  document.getElementById('reset-btn').onclick = function() {
+    localStorage.removeItem('invitee');
+    location.reload();
+  };
+
+});
 
 // Show invitation UI
 function showInvitation(name, partyTime, workEnd) {
@@ -64,8 +78,8 @@ function launchConfetti() {
   });
 
   // Small fireworks every 300ms
-  let duration = 2000;
-  let end = Date.now() + duration;
+  const duration = 2000;
+  const end = Date.now() + duration;
 
   (function frame() {
     confetti({
@@ -87,7 +101,7 @@ function launchConfetti() {
   })();
 }
 
-// On page load
+// On page load: show saved invite if exists
 window.onload = function() {
   const invitee = localStorage.getItem('invitee');
   if (invitee) {
@@ -95,10 +109,3 @@ window.onload = function() {
     showInvitation(obj.name, obj.partyTime, obj.workEnd);
   }
 };
-
-// Reset
-document.getElementById('reset-btn').onclick = function() {
-  localStorage.removeItem('invitee');
-  location.reload();
-};
-  });
