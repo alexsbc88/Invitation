@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
   //   headers: { "Content-Type": "application/json" }
   // })
     console.log("Form submitted!", { name, workEnd });
-  .then(res => res.json())
-  .then(data => console.log("RSVP stored:", data))
-  .catch(err => console.error("Error sending RSVP:", err));
+  // .then(res => res.json())
+  // .then(data => console.log("RSVP stored:", data))
+  // .catch(err => console.error("Error sending RSVP:", err));
 
   // Show confirmation
   showInvitation(name, partyTimeString, workEnd);
