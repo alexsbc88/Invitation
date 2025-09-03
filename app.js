@@ -1,10 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  document.getElementById('invite-form').onsubmit = function(e) {
+  const form = document.getElementById('invite-form');
+  const nameInput = document.getElementById('name');
+  const workEndInput = document.getElementById('work-end');
+  const resetBtn = document.getElementById('reset-btn');
+
+  form.onsubmit = function(e) {
     e.preventDefault();
 
-    const name = document.getElementById('name').value.trim();
-    const workEnd = document.getElementById('work-end').value;
+    const name = nameInput.value.trim();
+    const workEnd = workEndInput.value;
+
+    if (!name || !workEnd) return alert("Please fill out both fields!");
 
     // Calculate party time: 30 minutes after work end
     const [workHour, workMin] = workEnd.split(':').map(Number);
@@ -14,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let hours = partyDate.getHours();
     let minutes = partyDate.getMinutes();
-    let ampm = hours >= 12 ? 'PM' : 'AM';
+    const ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12 || 12;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     const partyTimeString = `${hours}:${minutes} ${ampm}`;
@@ -28,30 +35,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log("Form submitted!", { name, workEnd, partyTime: partyTimeString });
 
-    // Send to Google Sheets via GET (avoids CORS)
-    const url = `https://script.google.com/macros/s/AKfycbzywjfc8GTid7lAt8MGMlyczGHPZE18S1o1FBRFZEINlwovNKJDFYcbHrpXpskDus4/exec?name=${encodeURIComponent(name)}&workEnd=${workEnd}&partyTime=${encodeURIComponent(partyTimeString)}`;
+    // Send to Google Sheets via GET to avoid CORS
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzywjfc8GTid7lAt8MGMlyczGHPZE18S1o1FBRFZEINlwovNKJDFYcbHrpXpskDus4/exec";
+    const url = `${scriptUrl}?name=${encodeURIComponent(name)}&workEnd=${workEnd}&partyTime=${encodeURIComponent(partyTimeString)}`;
 
     fetch(url)
       .then(res => res.json())
       .then(data => console.log("Sheets response:", data))
       .catch(err => console.error("Error sending RSVP:", err));
 
+    // Show invitation
     showInvitation(name, partyTimeString, workEnd);
 
+    // Launch confetti
     launchConfetti();
 
-    // Clear inputs for debug
-    document.getElementById('name').value = '';
-    document.getElementById('work-end').value = '';
+    // Clear inputs for debugging
+    nameInput.value = '';
+    workEndInput.value = '';
   };
 
   // Reset button
-  document.getElementById('reset-btn').onclick = function() {
+  resetBtn.onclick = function() {
     localStorage.removeItem('invitee');
     document.getElementById('form-container').style.display = 'block';
     document.getElementById('invitation').style.display = 'none';
-    document.getElementById('name').value = '';
-    document.getElementById('work-end').value = '';
+    nameInput.value = '';
+    workEndInput.value = '';
   };
 });
 
@@ -66,7 +76,7 @@ function showInvitation(name, partyTime, workEnd) {
     `https://github.com/alexsbc88/Invitation/issues/new?title=RSVP:%20${encodeURIComponent(name)}&body=Work%20End%20Time:%20${workEnd}%0AParty%20Time:%20${partyTime}`;
 }
 
-// Confetti
+// Confetti animation
 function launchConfetti() {
   confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
   const end = Date.now() + 2000;
