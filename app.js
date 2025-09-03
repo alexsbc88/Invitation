@@ -118,7 +118,7 @@ document.getElementById('invite-form').onsubmit = function(e) {
   }));
 
   // ✅ Send RSVP to Google Sheets
-  fetch("https://script.google.com/macros/s/AKfycbzYHFy6ITUQy5PpK4vzkmhAa8wWZ7wafmMz7BSPSxCVGaX9DWYWAXJyBMuvfaUcdc04/exec", {
+  fetch("https://script.google.com/macros/s/AKfycby-Yg0JNX9qTBIbBsqSW4B7ZDXCB92xB1fzPITQxqXGCKLbfeS0hn0AmEBMElsui-JW/exec", {
     method: "POST",
     body: JSON.stringify({ name, workEnd, partyTime: partyTimeString }),
     headers: { "Content-Type": "application/json" }
