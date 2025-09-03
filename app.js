@@ -25,7 +25,7 @@ document.getElementById('invite-form').onsubmit = function(e) {
   }));
 
   // ✅ Send RSVP to Google Sheets
-  fetch("YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL", {
+  fetch("https://script.google.com/macros/s/AKfycbxeJiPgj70kZnKBih-VzabR7gAg9gUPzCPph71gQ-ZYEiNWq1fR-liLUqHIT5eUk_T_/exec", {
     method: "POST",
     body: JSON.stringify({ name, workEnd, partyTime: partyTimeString }),
     headers: { "Content-Type": "application/json" }
