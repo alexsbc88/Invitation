@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -30,3 +30,18 @@
   <script src="app.js"></script>
 </body>
 </html>
+ -->
+ <form id="invite-form">
+  <h2>RSVP to the Party!</h2>
+  <div class="form-row">
+    <label for="name">Your Name:</label>
+    <input id="name" name="name" type="text" required>
+  </div>
+  <div class="form-row">
+    <label for="work-end">End Time:</label>
+    <input id="work-end" name="work-end" type="time" required>
+  </div>
+  <button type="submit">Submit</button>
+  <a href="#" id="open-issue-link">Or RSVP via GitHub Issue</a>
+  <button id="reset-btn" type="button">Reset RSVP</button>
+</form>
