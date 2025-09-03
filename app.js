@@ -101,3 +101,4 @@ document.getElementById('reset-btn').onclick = function() {
   localStorage.removeItem('invitee');
   location.reload();
 };
+  });
