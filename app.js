@@ -1,8 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('invite-form');
-  
+  const resetBtn = document.getElementById('reset-btn');
+  const invitationDiv = document.getElementById('invitation');
+  const partyTimeMessage = document.getElementById('party-time-message');
+
+  // Submit RSVP
   form.addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent page reload
+    e.preventDefault();
 
     const name = document.getElementById('name').value.trim();
     const workEnd = document.getElementById('work-end').value;
@@ -42,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(data => {
       console.log("RSVP stored:", data);
-      // Show confirmation only after successful submission
       showInvitation(name, partyTimeString, workEnd);
       launchConfetti();
     })
@@ -51,4 +54,33 @@ document.addEventListener('DOMContentLoaded', () => {
       alert("Failed to send RSVP. Please try again.");
     });
   });
+
+  // Show invitation confirmation
+  function showInvitation(name, partyTime) {
+    partyTimeMessage.textContent = `${name}, your party starts at ${partyTime}!`;
+    invitationDiv.style.display = 'block';
+  }
+
+  // Launch confetti
+  function launchConfetti() {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  }
+
+  // Reset RSVP
+  resetBtn.addEventListener('click', () => {
+    localStorage.removeItem('invitee');
+    invitationDiv.style.display = 'none';
+    form.reset();
+  });
+
+  // Auto-load existing RSVP if any
+  const savedInvite = localStorage.getItem('invitee');
+  if (savedInvite) {
+    const { name, partyTime } = JSON.parse(savedInvite);
+    showInvitation(name, partyTime);
+  }
 });
