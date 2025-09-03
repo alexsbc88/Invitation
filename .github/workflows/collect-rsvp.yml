@@ -25,7 +25,7 @@ jobs:
           issue_title = os.environ['ISSUE_TITLE']
           issue_body = os.environ['ISSUE_BODY']
           new_rsvp = {
-              "name": issue_title,
+              "name": issue_title.replace("RSVP: ", ""),
               "details": issue_body,
               "submittedAt": os.environ.get('GITHUB_EVENT_CREATED_AT', '')
           }
@@ -41,6 +41,10 @@ jobs:
 
           with open('invites.json', 'w') as f:
               json.dump(invites, f, indent=2)
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          GITHUB_EVENT_CREATED_AT: ${{ github.event.issue.created_at }}
 
       - name: Commit RSVP to invites.json
         run: |
@@ -52,8 +56,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
-
-    env:
-      ISSUE_TITLE: ${{ github.event.issue.title }}
-      ISSUE_BODY: ${{ github.event.issue.body }}
-      GITHUB_EVENT_CREATED_AT: ${{ github.event.issue.created_at }}
