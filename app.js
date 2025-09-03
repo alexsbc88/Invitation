@@ -80,4 +80,8 @@ document.getElementById('invite-form').onsubmit = async function(e) {
     } else {
         alert("Failed to save your RSVP. Please try again.");
     }
+    document.getElementById('reset-btn').onclick = function() {
+    localStorage.removeItem('invitee');
+    location.reload();
+};
 };
