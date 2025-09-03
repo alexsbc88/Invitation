@@ -25,7 +25,7 @@ document.getElementById('invite-form').onsubmit = function(e) {
   }));
 
   // ✅ Send RSVP to Google Sheets
-  fetch("https://script.google.com/macros/s/AKfycbxeJiPgj70kZnKBih-VzabR7gAg9gUPzCPph71gQ-ZYEiNWq1fR-liLUqHIT5eUk_T_/exec", {
+  fetch("YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL", {
     method: "POST",
     body: JSON.stringify({ name, workEnd, partyTime: partyTimeString }),
     headers: { "Content-Type": "application/json" }
@@ -37,4 +37,65 @@ document.getElementById('invite-form').onsubmit = function(e) {
   // Show confirmation
   showInvitation(name, partyTimeString, workEnd);
   launchConfetti();
+};
+
+
+// Show invitation UI
+function showInvitation(name, partyTime, workEnd) {
+  document.getElementById('form-container').style.display = 'none';
+  document.getElementById('invitation').style.display = 'block';
+  document.getElementById('party-time-message').textContent =
+    `The firework watching party is at ${partyTime}. See you then, ${name}!`;
+
+  // Update GitHub Issue link
+  document.getElementById('open-issue-link').href =
+    `https://github.com/alexsbc88/Invitation/issues/new?title=RSVP:%20${encodeURIComponent(name)}&body=Work%20End%20Time:%20${workEnd}%0AParty%20Time:%20${partyTime}`;
+}
+
+// 🎆 Confetti animation
+function launchConfetti() {
+  // Burst effect
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { y: 0.6 }
+  });
+
+  // Small fireworks every 300ms
+  let duration = 2000;
+  let end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 5,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 }
+    });
+    confetti({
+      particleCount: 5,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 }
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
+}
+
+// On page load
+window.onload = function() {
+  const invitee = localStorage.getItem('invitee');
+  if (invitee) {
+    const obj = JSON.parse(invitee);
+    showInvitation(obj.name, obj.partyTime, obj.workEnd);
+  }
+};
+
+// Reset
+document.getElementById('reset-btn').onclick = function() {
+  localStorage.removeItem('invitee');
+  location.reload();
 };
