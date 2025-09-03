@@ -31,22 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Debug: log form submission
     console.log("Form submitted!", { name, workEnd, partyTime: partyTimeString });
 
-    // Optional: send to Google Sheets (uncomment if needed)
-    /*
-    fetch("https://script.google.com/macros/s/AKfycbxeJiPgj70kZnKBih-VzabR7gAg9gUPzCPph71gQ-ZYEiNWq1fR-liLUqHIT5eUk_T_/exec", {
-      method: "POST",
-      body: JSON.stringify({ name, workEnd, partyTime: partyTimeString }),
-      headers: { "Content-Type": "application/json" }
-    })
-    .then(res => res.json())
-    .then(data => console.log("RSVP stored:", data))
-    .catch(err => console.error("Error sending RSVP:", err));
-    */
-
     // Show confirmation & launch confetti
     showInvitation(name, partyTimeString, workEnd);
     launchConfetti();
-  };
+  }; // closes onsubmit
 
   // Reset button
   document.getElementById('reset-btn').onclick = function() {
@@ -54,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     location.reload();
   };
 
-});
+}); // <-- closes DOMContentLoaded
 
 // Show invitation UI
 function showInvitation(name, partyTime, workEnd) {
