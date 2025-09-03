@@ -1,4 +1,4 @@
-body {
+/* body {
   background: #faede2;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
@@ -33,4 +33,67 @@ a#open-issue-link {
   margin-top: 1em;
   color: #5600e3;
   text-decoration: underline;
+}
+ */
+body {
+  background: #faede2;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+#form-container, #invitation {
+  background: #fcf8e3;
+  padding: 2em;
+  margin: 8em auto;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  width: 400px;
+  border: 2px solid #c1567a;
+  text-align: center;
+}
+
+h2 {
+  color: #c1567a;
+  margin-bottom: 1em;
+}
+
+.form-row {
+  margin-bottom: 1em;
+  text-align: left;
+}
+
+label {
+  display: inline-block;
+  width: 120px;
+}
+
+input[type="text"], input[type="time"] {
+  width: 200px;
+  padding: 0.3em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-left: 5px;
+}
+
+button {
+  padding: 0.5em 2em;
+  margin-top: 1em;
+  background: #5600e3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+#reset-btn {
+  background: #c1567a;
+  margin-top: 1em;
+}
+
+a#open-issue-link {
+  display: block;
+  margin-top: 1em;
+  color: #5600e3;
+  text-decoration: underline;
+  font-size: 1em;
 }
