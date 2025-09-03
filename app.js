@@ -28,15 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log("Form submitted!", { name, workEnd, partyTime: partyTimeString });
 
-    // Send to Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbxeJiPgj70kZnKBih-VzabR7gAg9gUPzCPph71gQ-ZYEiNWq1fR-liLUqHIT5eUk_T_/exec", {
-      method: "POST",
-      body: JSON.stringify({ name, workEnd, partyTime: partyTimeString }),
-      headers: { "Content-Type": "application/json" }
-    })
-    .then(res => res.json())
-    .then(data => console.log("Sheets response:", data))
-    .catch(err => console.error("Error sending RSVP:", err));
+    // Send to Google Sheets via GET (avoids CORS)
+    const url = `https://script.google.com/macros/s/AKfycbzywjfc8GTid7lAt8MGMlyczGHPZE18S1o1FBRFZEINlwovNKJDFYcbHrpXpskDus4/exec?name=${encodeURIComponent(name)}&workEnd=${workEnd}&partyTime=${encodeURIComponent(partyTimeString)}`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => console.log("Sheets response:", data))
+      .catch(err => console.error("Error sending RSVP:", err));
 
     showInvitation(name, partyTimeString, workEnd);
 
