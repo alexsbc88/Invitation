@@ -26,6 +26,9 @@ document.getElementById('invite-form').onsubmit = function(e) {
 
   // Update UI
   showInvitation(name, partyTimeString, workEnd);
+
+  // 🎉 Trigger confetti
+  launchConfetti();
 };
 
 // Show invitation UI
@@ -38,6 +41,39 @@ function showInvitation(name, partyTime, workEnd) {
   // Update GitHub Issue link
   document.getElementById('open-issue-link').href =
     `https://github.com/alexsbc88/Invitation/issues/new?title=RSVP:%20${encodeURIComponent(name)}&body=Work%20End%20Time:%20${workEnd}%0AParty%20Time:%20${partyTime}`;
+}
+
+// 🎆 Confetti animation
+function launchConfetti() {
+  // Burst effect
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { y: 0.6 }
+  });
+
+  // Small fireworks every 300ms
+  let duration = 2000;
+  let end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 5,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 }
+    });
+    confetti({
+      particleCount: 5,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 }
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
 }
 
 // On page load
