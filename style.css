@@ -1,53 +1,36 @@
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f7e9dc;
-    margin: 0;
-    padding: 0;
+  background: #faede2;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
-#form-container {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 3px 20px rgba(0,0,0,0.1);
-    width: 350px;
-    margin: 60px auto;
-    padding: 30px;
-    text-align: center;
+#form-container, #invitation {
+  background: #fcf8e3;
+  padding: 2em;
+  margin: 8em auto;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  width: 350px;
+  border: 2px solid #c1567a;
+  text-align: center;
 }
-#form-container h2 {
-    color: #d16ba5;
-}
-label {
-    display: block;
-    margin-top: 12px;
-    margin-bottom: 6px;
-    color: #7c4dff;
-}
-input[type="text"], input[type="time"] {
-    width: 70%;
-    padding: 8px;
-    margin-bottom: 18px;
-    border-radius: 6px;
-    border: 1px solid #d16ba5;
+h2 {
+  color: #c1567a;
 }
 button {
-    background: #d16ba5;
-    color: white;
-    border: none;
-    padding: 10px 28px;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
+  padding: 0.5em 2em;
+  margin-top: 1em;
+  background: #5600e3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
-button:hover {
-    background: #7c4dff;
+#reset-btn {
+  background: #c1567a;
+  margin-top: 2em;
 }
-#invitation {
-    background: #fffbe9;
-    border-radius: 10px;
-    width: 350px;
-    margin: 40px auto;
-    padding: 24px;
-    text-align: center;
-    border: 2px solid #d16ba5;
+a#open-issue-link {
+  display: block;
+  margin-top: 1em;
+  color: #5600e3;
+  text-decoration: underline;
 }
