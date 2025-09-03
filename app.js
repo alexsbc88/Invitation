@@ -1,6 +1,7 @@
-document.getElementById('invite-form').onsubmit = function(e) {
-  e.preventDefault();
-
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('invite-form').onsubmit = function(e) {
+    e.preventDefault();
+    
   const name = document.getElementById('name').value.trim();
   const workEnd = document.getElementById('work-end').value;
 
