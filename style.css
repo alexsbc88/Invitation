@@ -2,6 +2,7 @@ body {
   background: #faede2;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
+
 #form-container, #invitation {
   background: #fcf8e3;
   padding: 2em;
@@ -12,9 +13,11 @@ body {
   border: 2px solid #c1567a;
   text-align: center;
 }
+
 h2 {
   color: #c1567a;
 }
+
 button {
   padding: 0.5em 2em;
   margin-top: 1em;
@@ -24,14 +27,15 @@ button {
   border-radius: 8px;
   cursor: pointer;
 }
+
 #reset-btn {
   background: #c1567a;
   margin-top: 2em;
 }
+
 a#open-issue-link {
   display: block;
   margin-top: 1em;
   color: #5600e3;
   text-decoration: underline;
 }
-
