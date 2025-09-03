@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Firework Invitation</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Firework Invitation</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="form-container">
-        <h2>RSVP to the Party!</h2>
-        <form id="invite-form">
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" required><br>
-            <label for="work-end">Your Work End Time:</label>
-            <input type="time" id="work-end" required><br>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-    <div id="invitation" style="display:none;">
-        <h2>You're invited!</h2>
-        <p id="party-time-message"></p>
-    </div>
-    <button id="reset-btn" style="display:block;margin:20px auto;">Reset RSVP</button>
-    <script src="app.js"></script>
+  <div id="form-container">
+    <form id="invite-form">
+      <h2>RSVP to the Party!</h2>
+      <label for="name">Your Name:</label>
+      <input id="name" name="name" type="text" required>
+
+      <label for="work-end">Your Work End Time:</label>
+      <input id="work-end" name="work-end" type="time" required>
+
+      <button type="submit">Submit</button>
+    </form>
+    <a href="https://github.com/alexsbc88/Invitation/issues/new?title=RSVP:%20[YOUR%20NAME]&body=Work%20End%20Time:%20[HH:MM]%0AParty%20Time:%20[CALCULATED]" target="_blank" id="open-issue-link">
+      Or RSVP via GitHub Issue
+    </a>
+    <button id="reset-btn">Reset RSVP</button>
+  </div>
+
+  <div id="invitation" style="display:none;">
+    <h2>You're invited!</h2>
+    <p id="party-time-message"></p>
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>
