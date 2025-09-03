@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Firework Invitation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="form-container">
+        <h2>RSVP to the Party!</h2>
+        <form id="invite-form">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" required><br>
+            <label for="work-end">Your Work End Time:</label>
+            <input type="time" id="work-end" required><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div id="invitation" style="display:none;">
+        <h2>You're invited!</h2>
+        <p id="party-time-message"></p>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
